@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+		<title>Cupb Query Portal</title>
+		<meta name="keywords" content="HTML5,CSS3,Template"/>
+		<meta name="description" content=""/>
+		<meta name="Himanshu Sharma"/>
+		<!-- mobile settings -->
+		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="https://use.fontawesome.com/cb8d89e03d.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <style>
+        .navbar-login
+{
+    width: 305px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.navbar-login-session
+{
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.icon-size
+{
+    font-size: 87px;
+}
+    </style>
+    {% block style %}
+
+    {% endblock style %}
+</head>
+
+<body>
+        <nav class="navbar navbar-inverse" role="navigation">
+    	  <div class="container">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-brand-centered">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand navbar-brand-centered" href="{% url 'home' %}">CQP</a>
+		    </div>
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="navbar-brand-centered">
+		      {% if user.is_authenticated %}
+                  <ul class="nav navbar-nav navbar-left">
+                      <li><a href="{% url 'add-posts' %}"><i class="fa fa-pencil-square-o"></i> Add Post</a></li>
+                      <li>
+                          <form class="navbar-form navbar-right" action="{% url 'search' %}" role="search">
+                            <div class="form-group">
+                                <input type="text" name="mysearch" class="form-control" placeholder="Search">
+                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            </div>
+                          </form>
+                      </li>
+                  </ul>
+                <ul class="nav navbar-nav navbar-right">
+                      <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="far fa-user"></span> Account
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="navbar-login">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="text-left"><strong>{{ user.username }}</strong></p>
+                                        <p class="text-left small">{{ user.email }}</p>
+                                        <br>
+                                        <a href="{% url 'update user info' %}" class="btn btn-info btn-block"><i class="glyphicon glyphicon-pencil"></i> Edit/Update Account</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="navbar-login navbar-login-session">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>
+                                            <a href="{% url 'logout' %}" class="btn btn-danger btn-block"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                </ul>
+                  {% else %}
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in"></i> Login</a></li>
+                      <li><a href="{% url 'registration_register' %}"><i class="fa fa-user-plus"></i> Signup</a></li>
+                  </ul>
+                {% endif %}
+		    </div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+
+    <div class="container">
+        <div class="row">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+        <br>
+        <br>
+<script src="{% static "assets/bootstrap/js/jquery-1.9.1.min.js" %}"></script>
+<script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+{% block js %}
+
+{% endblock js %}
+</body>
+</html>

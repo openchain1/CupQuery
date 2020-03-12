@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container">
+                  <div class="row">
+                  {% if user == user.is_anonymous %}
+                        <p>To View Your Profile SignUp</p>
+                        <a href="{% url 'signup' %}">SignUp Here</a>
+                  {% endif %}
+                  <div class="container col-md-4">
+                      <div class="panel panel-default">
+                       <div class="panel-body">
+                      <div class="col-md-4 col-lg-4">
+                        {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" class="img-circle img-responsive" width="100%" height="100%">
+                        {% else %}
+                        <img alt="{{ user.first_name }} pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" class="img-circle img-responsive" width="280" height="280">
+                        {% endif %}
+
+
+                      </div>
+                      <div class="col-md-9 col-xs-12 col-sm-6 col-lg-9" >
+                          <div class="container" >
+                            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                            <p>from   <b>{{ user.profile.location }}</b></p>
+                              <a href="{% url 'update profile' %}"><span class="fa fa-pencil-square-o">Edit Profile</span></a>
+
+
+                          </div>
+                           <hr>
+                          <ul class="container details" >
+                            <li><p><span class="glyphicon glyphicon-user one" style="width:50px;"></span>{{ user.username }}</p></li>
+                            <li><p><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>{{ user.email }}</p></li>
+                            <li><p><span class="glyphicon glyphicon-info-sign" style="width:50px;"></span>{{ user.profile.bio }}</p></li>
+                          </ul>
+                          <hr>
+                          <div class="col-sm-5 col-xs-6 tital " >Date Of Birth: {{ user.profile.birth_date }}</div>
+                      </div>
+                </div>
+            </div>
+                  </div>
+            </div>
+    <br>
+    </div>
+{% endblock %}

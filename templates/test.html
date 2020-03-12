@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if post_list %}
+	{% for post in post_list %}
+            <h3>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </h3>
+            <p class="new">
+                by <a>{{ post.user.username }}</a>
+            </p>
+            <p><span class="glyphicon glyphicon-time"></span> {{ post.date }}</p>
+                <p>{% autoescape off %}{{ post.body|truncatechars_html:120|safe }}{% endautoescape %}</p>
+            <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+            <hr>
+    {% endfor %}
+    {% else %}
+    <p class="lead">{{ none }}</p>
+{% endif %}
+
+{% endblock %}

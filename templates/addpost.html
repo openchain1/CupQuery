@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="container">
+    <div class="row">
+        {% if user.is_authenticated %}
+            <div class="container">
+            <div class="row">
+            <div class="container">
+            <h3>Hi, {{ user.username }} Got A Query ?? Post Here</h3>
+                <br>
+            </div>
+            </div>
+                <div class="row">
+                    <div class="container">
+                        <div class="col-md-9">
+                        <form method="POST" enctype="multipart/form-data" action=".">
+                            {% csrf_token %}
+                            {{ form.media }}
+                            {{ form | crispy }}
+                            <br>
+                            <button type="submit" class="btn btn-default pull-right">Post</button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(window).resize(function(){
+            var newwidth = "100%";
+            $("#cke_id_body").width(newwidth);
+        });
+    </script>
+{% endblock js %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block style %}
+    <script>
+        $(window).resize(function(){
+            var newwidth = "100%";
+            var dialogwidth = "75%";
+            $("#cke_id_body").width(newwidth);
+            $("#cke_dialog").width(dialogwidth);
+        });
+    </script>
+{% endblock style %}
+
+
+{% block content %}
+  <div class="container">
+            <div class="row">
+            <div class="container">
+            <h3 class="lead">Update Post</h3>
+            </div>
+            </div>
+                <div class="row">
+                <div class="container">
+                    <div class="col-md-9 col-md-offset-2">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.media }}
+                            {{ form | crispy }}
+                            <br>
+                            <button type="submit" class="btn btn-default pull-right">Update Post</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+{% endblock content %}
+

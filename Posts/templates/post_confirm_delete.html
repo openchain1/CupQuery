@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="container">
+            <div class="row col-md-8 col-md-offset-2">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <p class="lead">Are you sure you want to delete <a href="{{ object.get_absolute_url }}">"{{ object | truncatechars:120 }}"?</a></p>
+                    <input class="btn btn-warning pull-right" type="submit" value="Confirm" />
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

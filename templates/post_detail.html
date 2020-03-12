@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block style %}{% endblock style %}
+
+{% block content %}
+    <div class="container 1">
+    <h2>{{ post.title }}</h2>
+        <h5>
+            <span class="glyphicon glyphicon-time"></span> Post by {{ post.user.username }} on {{ post.date }}
+            {% if request.user == post.user %}
+                <a href="{% url 'delete' pk=post.pk %}"><button style="margin-left: 10px" class="btn btn-danger glyphicon glyphicon-trash pull-right"></button></a>
+                <a href="{% url 'edit' pk=post.pk %}"><button class="btn btn-primary glyphicon glyphicon-pencil pull-right"></button></a>
+            {% endif %}
+        </h5>
+        <br>
+        <div class="row col-md-10 col-md-offset-1">
+        <p><span class="text-wrapper">{{ post.body|safe }}</span></p>
+        </div>
+    </div>
+<hr>
+    <div class="container 2">
+        <div class="col-md-9 col-md-offset-2">
+            <div class="row">
+
+              <form role="form" method="POST">
+                <div class="form-group">
+                {% csrf_token %}
+                    {{ form.media }}
+                    {{ form|crispy }}
+                </div>
+                <button type="submit" class="btn btn-default pull-right">Post Comment</button>
+              </form>
+            </div>
+        </div>
+      <br><br>
+            <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-md-offset-2">
+                  <div class="page-header">
+                      {% if post.posts.count == 0 %}
+                          <b class="lead">No Comments Yet</b>
+                      {% else %}
+                          <b class="lead">{{ post.posts.count }} Comment(s):</b>
+                      {% endif %}
+                  </div>
+                   <div class="comments-list">
+                       {% for comment in post.posts.all %}
+                       <div class="media">
+                           <p class="pull-right"><small>{{ comment.created_date|timesince }} ago</small></p>
+                            <div class="media-body img-responsive">
+
+                              <h4 class="media-heading user_name">{{ comment.user }}</h4>
+                                <br>
+                              {{ comment.comments|safe }}
+                            </div>
+{#                       <input type="button" id="like" name="{{ comment.slug }}" value="Like" />#}
+
+                                {% if request.user == comment.user %}
+                                    <a href="{% url 'delete' pk=comment.pk %}"><button style="margin-left: 10px" class="btn btn-danger glyphicon glyphicon-trash pull-right"></button></a>
+                                    <a href="{% url 'edit' pk=comment.pk %}"><button class="btn btn-primary glyphicon glyphicon-pencil pull-right"></button></a>
+                                {% endif %}
+                          </div>
+                           <hr>
+                       {% endfor %}
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $('#like').click(function(){
+              $.ajax({
+                       type: "POST",
+                       url: "{% url 'like' %}",
+                       data: {'slug': $(this).attr('comments'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                       dataType: "json",
+                       success: function(response) {
+                              alert(response.message);
+                              alert('Post likes count is now ' + response.likes_count);
+                        },
+                        error: function(rs, e) {
+                               alert(rs.responseText);
+                        }
+                  });
+            })
+    </script>
+{% endblock js %}
